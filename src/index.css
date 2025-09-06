@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+.ReactCollapse--collapse {
+  transition: height 1000ms;
+}
+
+body{
+font-family: "Montserrat", sans-serif;
+background-color: rgba(0, 0, 0, 0.1);
+}
+
+.active Button {
+  background-color: rgb(169, 168, 168) !important;
+  color: rgb(113, 29, 29) !important; /* optional */
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.oldprice input::placeholder {
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  color: gray; /* optional */
+}
+
+.scroll-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge */
+.scroll-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.myaccounttabs li a{
+    position: relative;
+    display: block;
+}
+.myaccounttabs li a::before{
+    position: absolute;
+    background-color: blue;
+    top: 50%;
+    left: 1px;
+    width: 3px;
+    height: 50%;
+    content: "";
+    opacity: 0;
+    transition: all ease-in-out 0.3s;
+}
+.myaccounttabs li a.active::before{
+   height:100%;
+   opacity: 1;
+   top: 0px;
+}
+.myaccounttabs li a.active{
+  background-color:#d8d5d5df !important;
+}

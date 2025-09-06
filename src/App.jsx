@@ -1,0 +1,182 @@
+import './App.css'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import Header from './components/header'
+import Sidebar from './components/sidebar'
+import Dashboard from './components/pages/dashboard'
+import { createContext, useState } from 'react'
+import Login from './components/pages/login'
+import Signup from './components/pages/signup'
+import ProductListing from './components/pages/productslist'
+import React from 'react'
+import AddProduct from './components/addproductmodel'
+import Dialog from '@mui/material/Dialog';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import { IoCloseSharp } from "react-icons/io5";
+import AddHomeSlide from './components/pages/homeslidelist'
+import AddSlider from './components/addslidermodel'
+import AddCatagory from './components/pages/catagorylist'
+import AddCatagoryModel from './components/addcatagorymodel'
+import UsersDetails from './components/pages/usersdetails'
+import OrdersListing from './components/pages/orderslisting'
+
+const Mycontext = createContext()
+
+function AppLayout({ children }) {
+  const location = useLocation()
+  const { isopensidebar } = React.useContext(Mycontext)
+
+  // hide header + sidebar only on login/signup
+  const hideLayout =
+    location.pathname === '/login' || location.pathname === '/signup'
+
+  if (hideLayout) {
+    return <>{children}</> // return only page content (no header/sidebar)
+  }
+
+  return (
+    <div>
+      <Header />
+      <div className="flex">
+        {/* Sidebar */}
+        <div
+          className={`${isopensidebar ? 'w-[22%]' : 'w-[0px]'
+            } duration-600 transition-all`}
+        >
+          <Sidebar />
+        </div>
+
+        {/* Main content */}
+        <div
+          className={`${isopensidebar ? 'w-[78%]' : 'w-full'
+            } px-5 py-4 transition-all duration-600`}
+        >
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function App() {
+  const [isopensidebar, setisopensidebar] = useState(false)
+  const [isloggedin, setisloggedin] = useState(false)
+  const [ opendialogue, setopendialogue ] = useState({ open: false, model: null })
+
+  const values = { isopensidebar, setisopensidebar, isloggedin, setisloggedin, opendialogue, setopendialogue}
+
+  return (
+    <BrowserRouter>
+      <Mycontext.Provider value={values}>
+        <Routes>
+          <Route
+            path="/login"
+            element={
+              <AppLayout>
+                <Login />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <AppLayout>
+                <Signup />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/products"
+            element={
+              <AppLayout>
+                <ProductListing />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/homebanner"
+            element={
+              <AppLayout>
+                <AddHomeSlide />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/catagorylist"
+            element={
+              <AppLayout>
+                <AddCatagory />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/subcatagoryadd"
+            element={
+              <AppLayout>
+                <AddCatagory />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              <AppLayout>
+                <UsersDetails />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <AppLayout>
+                <OrdersListing />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <AppLayout>
+                <Dashboard />
+              </AppLayout>
+            }
+          />
+        </Routes>
+
+        <Dialog
+          fullScreen
+          open={opendialogue.open}
+          onClose={()=>{setopendialogue({ open: false, model: null })}}
+        >
+          <AppBar sx={{ position: 'relative',background:'#d4caca62' }}>
+            <Toolbar>
+              <IconButton
+                edge="start"
+                color="inherit"
+                className='!text-[30px] !text-gray-600'
+                onClick={()=>{setopendialogue({ open: false, model: null })}}
+                aria-label="close"
+              >
+                <IoCloseSharp />
+              </IconButton>
+              <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                <span className='text-[20px] text-gray-600 font-[700]'>{opendialogue.model}</span>
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          {opendialogue.model==='Add Product'&&<AddProduct/>}
+          {opendialogue.model==='Add Home Slider'&&<AddSlider/>}
+          {opendialogue.model==='Add Catagory'&&<AddCatagoryModel/>}
+          {opendialogue.model==='Add Sub Catagory'&&<AddsubCatagoryModel/>}
+          
+        </Dialog>
+
+      </Mycontext.Provider>
+    </BrowserRouter>
+  )
+}
+
+export { Mycontext }
+export default App
