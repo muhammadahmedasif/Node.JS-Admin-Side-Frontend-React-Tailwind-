@@ -16,6 +16,7 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import Tooltip from '@mui/material/Tooltip';
 import { MdOutlineMailOutline } from "react-icons/md";
 import { MdOutlinePhone } from "react-icons/md";
+import { BsCalendar2Date } from "react-icons/bs";
 
 
 
@@ -162,6 +163,15 @@ function MaterialUiTable({ rows, columns, currentpage }) {
                       <div className="flex items-center justify-center gap-2 break-words">
                         <MdOutlinePhone className="text-gray-400 text-[20px]" />
                         <span>{row.phone}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      className="!text-[14px] !font-[600] !text-gray-500"
+                    >
+                      <div className="flex items-center justify-center gap-2 break-words">
+                        <BsCalendar2Date className="text-gray-400 text-[20px]" />
+                        <span>{row.created}</span>
                       </div>
                     </TableCell>
                   </TableRow>

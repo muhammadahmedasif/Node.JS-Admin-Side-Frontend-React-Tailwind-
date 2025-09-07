@@ -21,6 +21,10 @@ import AddCatagory from './components/pages/catagorylist'
 import AddCatagoryModel from './components/addcatagorymodel'
 import UsersDetails from './components/pages/usersdetails'
 import OrdersListing from './components/pages/orderslisting'
+import ForgetPassword from './components/pages/forgetpassword'
+import VerifyAccount from './components/pages/verifyaccount'
+import NewPassword from './components/pages/newpassword'
+
 
 const Mycontext = createContext()
 
@@ -30,7 +34,7 @@ function AppLayout({ children }) {
 
   // hide header + sidebar only on login/signup
   const hideLayout =
-    location.pathname === '/login' || location.pathname === '/signup'
+    location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/forgetpassword' || location.pathname === '/verifyaccount' || location.pathname === '/newpassword'
 
   if (hideLayout) {
     return <>{children}</> // return only page content (no header/sidebar)
@@ -132,6 +136,30 @@ function App() {
             element={
               <AppLayout>
                 <OrdersListing />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/forgetpassword"
+            element={
+              <AppLayout>
+                <ForgetPassword />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/verifyaccount"
+            element={
+              <AppLayout>
+                <VerifyAccount />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/newpassword"
+            element={
+              <AppLayout>
+                <NewPassword />
               </AppLayout>
             }
           />

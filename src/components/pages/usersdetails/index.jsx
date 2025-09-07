@@ -9,6 +9,7 @@ function UsersDetails() {
     { id: 'user_name', label: 'User Name', minWidth: 100, align: 'center' },
     { id: 'user_email', label: 'User Email', minWidth: 120, align: 'center' },
     { id: 'phone', label: 'Phone Number', minWidth: 70, align: 'center' },
+    { id: 'created_at', label: 'Created Date', minWidth: 50, align: 'center' },
    
   ];
 
@@ -17,55 +18,64 @@ function UsersDetails() {
             image: "https://i.pinimg.com/1200x/5b/75/a9/5b75a9c5c7371925328e06ad5814c259.jpg",
             name: "Muhammad Ahmed",
             email: "muhammadahmedasif13@gmail.com",
-            phone: "03078526478"
+            phone: "03078526478",
+            created: '10-12-2024'
         },
         {
             image: "https://i.pinimg.com/1200x/5b/75/a9/5b75a9c5c7371925328e06ad5814c259.jpg",
             name: "Muhammad Ahmed",
             email: "muhammadahmedasif13@gmail.com",
-            phone: "03078526478"
+            phone: "03078526478",
+            created: '10-12-2024'
         },
         {
             image: "https://i.pinimg.com/1200x/5b/75/a9/5b75a9c5c7371925328e06ad5814c259.jpg",
             name: "Muhammad Ahmed",
             email: "muhammadahmedasif13@gmail.com",
-            phone: "03078526478"
+            phone: "03078526478",
+            created: '10-12-2024'
         },
         {
             image: "https://i.pinimg.com/1200x/5b/75/a9/5b75a9c5c7371925328e06ad5814c259.jpg",
             name: "Muhammad Ahmed",
             email: "muhammadahmedasif13@gmail.com",
-            phone: "03078526478"
+            phone: "03078526478",
+            created: '10-12-2024'
         },
         {
             image: "https://i.pinimg.com/1200x/5b/75/a9/5b75a9c5c7371925328e06ad5814c259.jpg",
             name: "Muhammad Ahmed",
             email: "muhammadahmedasif13@gmail.com",
-            phone: "03078526478"
+            phone: "03078526478",
+            created: '10-12-2024'
         },
         {
             image: "https://i.pinimg.com/1200x/5b/75/a9/5b75a9c5c7371925328e06ad5814c259.jpg",
             name: "Muhammad Ahmed",
             email: "muhammadahmedasif13@gmail.com",
-            phone: "03078526478"
+            phone: "03078526478",
+            created: '10-12-2024'
         },
         {
             image: "https://i.pinimg.com/1200x/5b/75/a9/5b75a9c5c7371925328e06ad5814c259.jpg",
             name: "Muhammad Ahmed",
             email: "muhammadahmedasif13@gmail.com",
-            phone: "03078526478"
+            phone: "03078526478",
+            created: '10-12-2024'
         },
         {
             image: "https://i.pinimg.com/1200x/5b/75/a9/5b75a9c5c7371925328e06ad5814c259.jpg",
             name: "Muhammad Ahmed",
             email: "muhammadahmedasif13@gmail.com",
-            phone: "03078526478"
+            phone: "03078526478",
+            created: '10-12-2024'
         },
         {
             image: "https://i.pinimg.com/1200x/5b/75/a9/5b75a9c5c7371925328e06ad5814c259.jpg",
             name: "Muhammad Ahmed",
             email: "muhammadahmedasif13@gmail.com",
-            phone: "03078526478"
+            phone: "03078526478",
+            created: '10-12-2024'
         },
        
     ];

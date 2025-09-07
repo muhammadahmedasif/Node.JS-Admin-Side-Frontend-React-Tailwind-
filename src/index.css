@@ -59,3 +59,10 @@ input[type="number"]::-webkit-outer-spin-button {
 .myaccounttabs li a.active{
   background-color:#d8d5d5df !important;
 }
+
+.MuiTableBody-root tr:nth-child(even){
+  background-color: #d8d8da7a !important;
+}
+.MuiTableBody-root tr:nth-child(even):hover{
+  background-color: #bdbbbb59 !important;
+}
