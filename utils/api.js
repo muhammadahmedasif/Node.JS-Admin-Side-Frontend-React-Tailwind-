@@ -138,3 +138,38 @@ export async function deleteAvatar() {
     return { error: true, message: "Something went wrong" };
   }
 }
+
+export async function deleteaddress(url) {
+  try {
+    const res = await axios.delete(apiurl + url, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    return res.data; // { success, message, error }
+  } catch (error) {
+    if (error.response) {
+      return error.response.data; // backend error message
+    }
+    console.error("Delete avatar error:", error);
+    return { error: true, message: "Something went wrong" };
+  }
+}
+
+export async function putcurrentaddress(url) {
+  try {
+    const res = await axios.put(apiurl + url,  {}, {
+      headers: {
+         'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (error) {
+    if (error.response) return error.response.data;
+    console.error("Error", error);
+    return { error: true, message: "Something went wrong" };
+  }
+}

@@ -5,8 +5,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
 import { Mycontext } from '../../../App';
 import AccountSidebar from '../../accountsidebar';
-import { putdataPublic } from '../../../../utils/api';
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { deleteaddress, putcurrentaddress, putdataPublic } from '../../../../utils/api';
+import { FaChevronDown, FaChevronUp, FaTrash } from "react-icons/fa";
 
 
 
@@ -48,6 +48,42 @@ function MyAccount() {
 
     function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function handlechange(e, addr) {
+
+        if (e.target.checked) {
+            try {
+
+                const response = await putcurrentaddress(`/address/selected/${addr._id}`);
+
+                if (response?.error) {
+                    context.openalertbox("error", response.message);
+                } else {
+                    context.openalertbox("success", response.message);
+                    context.fetchuseraddress(); // refresh addresses
+                }
+            } catch (err) {
+                console.error(err);
+                context.openalertbox("error", "Something went wrong");
+            }
+        }
+
+    }
+
+    async function handleDelete(addrId) {
+        try {
+            const response = await deleteaddress(`/address/deleteaddress/${addrId}`)
+            if (response?.error) {
+                context.openalertbox("error", response.message);
+            } else {
+                context.openalertbox("success", "Address deleted successfully");
+                context.fetchuseraddress(); // refresh list
+            }
+        } catch (err) {
+            console.error(err);
+            context.openalertbox("error", "Something went wrong");
+        }
     }
 
     async function handlesubmit(e) {
@@ -155,7 +191,7 @@ function MyAccount() {
     return (
         <section>
             <div className="container flex gap-8">
-                <div className="w-[20%] bg-[#E5E5E5] rounded-lg my-10 flex items-center">
+                <div className="w-[20%] bg-[#E5E5E5] rounded-lg flex sticky top-30 h-fit">
                     <AccountSidebar />
                 </div>
                 <div className="w-[80%] bg-white rounded-lg my-10 flex flex-col items-center px-4 py-7">
@@ -168,29 +204,69 @@ function MyAccount() {
                         <p><b>Nickname:</b> {userdata?.nickname || "—"}</p>
                         <p><b>Personal Contact:</b> {userdata?.mobile || "—"}</p>
                     </div>
+                    {Array.isArray(context?.useraddress) && context.useraddress.some(addr => addr.selected) && (
+                        <div className="w-full bg-[#A9A8A8] mb-8 p-4 border border-gray-300 rounded-lg bg-gray-50">
+                            <h3 className="text-lg font-semibold mb-3">Current Address</h3>
+                            {context.useraddress
+                                .filter(addr => addr.selected)
+                                .map(addr => (
+                                    <span
+                                        key={addr._id}
+                                        className="font-medium text-green-800"
+                                    >
+                                        {addr.address} — {addr.city}
+                                    </span>
+                                ))}
+                        </div>
+                    )}
+
                     <div className="w-full h-[250px] overflow-y-scroll scroll-hide bg-gray-50 mb-8 p-4 border border-gray-300 rounded-lg">
                         <h3 className="text-lg font-semibold mb-3">Address Details</h3>
-
                         {Array.isArray(context.useraddress) && context.useraddress.length > 0 ? (
                             context.useraddress.map((addr, idx) => (
                                 <div
                                     key={addr._id}
-                                    className="mb-3 border border-gray-300 rounded-md bg-white"
+                                    className={`mb-3 border rounded-md ${addr.selected ? "border-green-500 bg-green-50" : "border-gray-300 bg-white"}`}
                                 >
                                     {/* Header Row */}
                                     <div
-                                        className="flex items-center justify-between p-2 cursor-pointer hover:bg-green-100 bg-blue-100"
-                                        onClick={() => toggleMenu(idx)}
+                                        className={`flex items-center justify-between p-2 cursor-pointer ${addr.selected ? "bg-green-100 hover:bg-green-200" : "bg-blue-100 hover:bg-blue-200"}`}
                                     >
-                                        <span className="font-medium text-gray-700">
-                                            {addr.address} — {addr.city}
-                                        </span>
-                                        {openIndex === idx ? <FaChevronUp /> : <FaChevronDown />}
+                                        <div
+                                            className="flex items-center gap-2 flex-1"
+                                            onClick={() => toggleMenu(idx)}
+                                        >
+                                            {/* ✅ Checkbox to select current address */}
+                                            <input
+                                                type="checkbox"
+                                                checked={addr.selected}
+                                                onChange={(e) => handlechange(e, addr)}
+                                                className="w-5 h-5 cursor-pointer accent-green-600"
+                                            />
+                                            <span
+                                                className={`font-medium ${addr.selected ? "text-green-800" : "text-gray-700 hover:text-red-400"}`}
+                                            >
+                                                {addr.address} — {addr.city}
+                                            </span>
+                                        </div>
+
+                                        {/* Right side controls */}
+                                        <div className="flex items-center gap-3">
+                                            {/* Delete Icon */}
+                                            <FaTrash
+                                                className="text-black cursor-pointer hover:text-red-700"
+                                                onClick={() => handleDelete(addr._id)}
+                                            />
+                                            {/* Expand/Collapse */}
+                                            {openIndex === idx ? <FaChevronUp onClick={() => toggleMenu(idx)} /> : <FaChevronDown onClick={() => toggleMenu(idx)} />}
+                                        </div>
                                     </div>
 
                                     {/* Details */}
                                     {openIndex === idx && (
-                                        <div className="px-3 pb-3 text-sm  bg-blue-100 text-gray-600">
+                                        <div
+                                            className={`px-3 pb-3 text-sm ${addr.selected ? "bg-green-50 text-green-700" : "bg-blue-50 text-gray-600"}`}
+                                        >
                                             <p><b>Address line 1:</b> {addr.address}</p>
                                             <p><b>City:</b> {addr.city}</p>
                                             <p><b>State:</b> {addr.state}</p>
@@ -203,8 +279,10 @@ function MyAccount() {
                                 </div>
                             ))
                         ) : (
-                            <p>No address found</p>
+                            <p className="text-gray-500">No addresses found.</p>
                         )}
+
+
                     </div>
                     <div className='w-full flex items-center justify-center justify-between border-b border-gray-300 pb-5 pt-2'>
                         <div className=' flex-col w-[50%] flex items-center justify-center'>

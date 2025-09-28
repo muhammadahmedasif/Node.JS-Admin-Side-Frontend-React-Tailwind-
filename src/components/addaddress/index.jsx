@@ -8,7 +8,7 @@ import { postdata } from "../../../utils/api";
 
 function Addaddress() {
     const [loading, setloading] = useState(false);
-    const { useraddress, setuseraddress } = useContext(Mycontext);
+    const { setuseraddress } = useContext(Mycontext);
     const [formfields, setformfields] = useState({
         address: '',
         pincode: '',
@@ -89,11 +89,6 @@ function Addaddress() {
                     console.log(response)
                     context.openalertbox("success", response.message);
                     context.fetchuseraddress();
-                    setuseraddress(prev => ({
-                        ...prev,
-                        ...formfields
-                    }))
-
                 }
             }
         } catch (err) {

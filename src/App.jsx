@@ -92,7 +92,6 @@ function App() {
      openalertbox("error", response.message);
    } else {
      setuseraddress(response.address);
-     console.log("Address details:", response.address);
    }
   };
 

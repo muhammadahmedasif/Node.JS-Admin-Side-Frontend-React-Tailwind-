@@ -109,7 +109,7 @@ function AccountSidebar() {
 
     return (
         <>
-            <div className="w-full overflow-hidden bg-white rounded-2xl shadow-md my-10 sticky top-[10px] border border-gray-200">
+            <div className="w-full overflow-hidden bg-white rounded-2xl shadow-md sticky top-[10px] border border-gray-200">
                 {/* Avatar + User Info */}
                 <div className="flex items-center flex-col justify-center py-8 px-4 bg-gradient-to-b from-blue-500 to-blue-600 text-white">
                     <div className="flex items-center justify-center w-[110px] h-[110px] rounded-full overflow-hidden border-4 border-white shadow-lg bg-gray-200">
