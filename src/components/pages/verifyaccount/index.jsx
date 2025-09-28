@@ -25,7 +25,7 @@ function VerifyAccount() {
 
                     <div className="w-[15%]">
                         <Link to="/">
-                            <img src="/images/logo.svg" alt="Logo" className="w-full" />
+                            <img src="/logo.svg" alt="Logo" className="w-full" />
                         </Link>
                     </div>
                     <div className="flex gap-3">

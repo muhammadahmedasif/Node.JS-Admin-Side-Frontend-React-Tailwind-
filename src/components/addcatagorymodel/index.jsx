@@ -141,7 +141,7 @@ function AddCatagoryModel() {
                         {/* Illustration */}
                         <div className="w-[40%]">
                             <img
-                                src="/images/catagory.png"
+                                src="/catagory.png"
                                 alt="category"
                                 className="w-full h-auto object-contain rounded-2xl shadow-md hover:scale-105 transition-transform duration-300"
                             />
@@ -185,7 +185,7 @@ function AddCatagoryModel() {
                             </div>
                             <div className="w-[20%] mx-auto">
                             <img
-                            src="/images/imgupload.png"
+                            src="/imgupload.png"
                                
                                 alt="category"
                                 className="w-full h-auto object-contain rounded-2xl shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)] hover:scale-105 transition-transform duration-300"

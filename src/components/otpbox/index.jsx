@@ -1,14 +1,20 @@
-
+import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
-import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useRef, useState } from 'react';
+
+import { Mycontext } from '../../App';
+import { useNavigate } from 'react-router-dom';
+import { postdata } from '../../../utils/api';
 
 function OTPBox() {
   // Step 1: State to store each OTP digit
   const [otp, setOtp] = useState(Array(6).fill(""));
+  const [loading, setloading] = useState(false);
 
   // Step 2: References for input focus control
   const inputRefs = useRef([]);
+  const context = useContext(Mycontext);
+  const navigate = useNavigate();
 
 
 
@@ -36,11 +42,73 @@ function OTPBox() {
       inputRefs.current[index - 1].focus();
     }
   };
+  const validatevalue = Object.values(otp).every(el => el);
 
   // Step 5: Submit OTP
-  const handleSubmit = () => {
-    alert("Your OTP is: " + otp.join(""));
-  };
+  async function handlesubmit(e) {
+    e.preventDefault();
+    setloading(true);
+
+    try {
+      const response = await postdata("/user/verifyemail", {
+        email: localStorage.getItem("userEmail"),
+        otp: otp.join(""),
+      });
+
+      const checkredirect = localStorage.getItem("forgetpassword");
+      const checkproupdate = localStorage.getItem("profupdate");
+      if (checkredirect) {
+
+        localStorage.removeItem("forgetpassword");
+        if (response.error === true) {
+          setOtp(Array(6).fill(""));
+          context.openalertbox("error", response.message);
+          return;
+        } else {
+          console.log("forgetPassword")
+          navigate('/newpassword')
+          setOtp(Array(6).fill(""));
+          context.openalertbox("success", response.message);
+          return
+        }
+      }
+      if (checkproupdate) {
+
+        localStorage.removeItem("profupdate");
+
+        if (response.error === true) {
+          setOtp(Array(6).fill(""));
+          context.openalertbox("error", response.message);
+          return
+        } else {
+          console.log("profupdate")
+          setOtp(Array(6).fill(""));
+          context.fetchUserData();
+          navigate('/myaccount')
+          context.openalertbox("success", response.message);
+          return
+        }
+      }
+
+      if (response.error === true) {
+        setOtp(Array(6).fill(""));
+        context.openalertbox("error", response.message);
+      } else {
+        console.log("verifyemail")
+        setOtp(Array(6).fill(""));
+        navigate('/login')
+        localStorage.removeItem("userEmail")
+        context.openalertbox("success", response.message);
+        return
+      }
+
+    } catch (err) {
+      console.error(err);
+      context.openalertbox("error", "Something went wrong");
+    } finally {
+      setloading(false); // ✅ always runs
+    }
+  }
 
   return (
     <div className="flex flex-col items-center justify-center w-[430px] min-h-[200px] p-4">
@@ -65,9 +133,11 @@ function OTPBox() {
         </div>
 
         {/* Submit Button */}
-        <Button component={Link} to={'/newpassword'} onClick={handleSubmit}
-          className="!w-full !py-3 !mt-3 !bg-blue-500 !text-white hover:!bg-blue-600 ">    
-          Verify OTP
+        <Button disabled={!validatevalue} onClick={handlesubmit}
+          className={`!w-full !py-3 !mt-3 ${loading === true ? "!bg-[rgba(207,202,188,0.61)] !text-black !cursor-not-allowed" : "!bg-blue-500 !text-white hover:!bg-blue-600"}`}>
+          {
+            loading === true ? <CircularProgress color='inherit' /> : 'Verify OTP'
+          }
         </Button>
       </div>
     </div>

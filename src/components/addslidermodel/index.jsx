@@ -44,7 +44,7 @@ function AddSlider() {
                         <div className="w-[20%] mx-auto flex justify-center overflow-hidden">
                             <div className="w-full overflow-hidden rounded-xl h-full">
                                 <img
-                                    src="/images/imgupload.png"
+                                    src="/imgupload.png"
                                     alt="homeslider"
                                     className="w-full h-auto object-cover"
                                 />

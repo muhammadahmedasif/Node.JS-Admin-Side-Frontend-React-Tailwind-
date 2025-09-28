@@ -144,7 +144,7 @@ function AddProduct() {
           <div className="w-full flex justify-center mt-5">
             <div className="w-[250px] overflow-hidden h-[300px]">
               <img
-                src="/images/image.png"
+                src="/image.png"
                 alt="Sunflower"
                 className="w-full h-auto object-cover overflow-hidden rounded-xl"
               />
@@ -287,7 +287,7 @@ function AddProduct() {
           <div className="w-full flex justify-center h-[190px] overflow-hidden">
             <div className="w-full h-full">
               <img
-                src="/images/availability.png"
+                src="/availability.png"
                 alt="Availability"
                 className="w-full h-auto object-cover rounded-xl"
               />
@@ -427,7 +427,7 @@ function AddProduct() {
           <div className="w-full flex justify-center h-[190px] overflow-hidden">
             <div className="w-full overflow-hidden rounded-xl h-full">
               <img
-                src="/images/imgupload.png"
+                src="/imgupload.png"
                 alt="Availability"
                 className="w-full h-auto object-cover"
               />

@@ -11,20 +11,45 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { BsGraphDown } from "react-icons/bs";
 import { SlLogout } from "react-icons/sl";
 import { Mycontext } from "../../App";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { fetchdatafromapi } from "../../../utils/api";
 
 
 function Header() {
 
+    const context = useContext(Mycontext)
     const [anchorEl, setAnchorEl] = useState(null);
+    const navigate = useNavigate();
+
     const open = Boolean(anchorEl);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const context = useContext(Mycontext)
+
+    const logout = async () => {
+
+        setAnchorEl(null);
+
+        const response = await fetchdatafromapi("/user/logout");
+
+        if (response.error === true) {
+            context.openalertbox("error", response.message);
+        } else {
+            localStorage.removeItem("userEmail")
+            localStorage.removeItem("accessToken")
+            localStorage.removeItem("refreshtoken")
+
+            context.openalertbox("success", response.message);
+            navigate('/')
+            context.setisloggedin(false)
+        }
+
+    }
     return (
         <>
             <header
@@ -53,7 +78,11 @@ function Header() {
                     </div>
                     {
                         context.isloggedin === true ? <Button className="!w-[35px] !h-[35px] !min-w-[35px] !p-0 !overflow-hidden !rounded-full !text-black !relative">
-                            <img src="https://img.freepik.com/free-photo/cheerful-guy-enjoying-outdoor-coffee-break_1262-20005.jpg?semt=ais_hybrid&w=740&q=80" alt="Profile" className="w-full h-full object-cover" onClick={handleClick} />
+                            <img
+                                src={context?.userdata?.avatar || "/images.png"}
+                                alt="profile"
+                                className="w-full h-full object-cover"
+                                onClick={handleClick} />
                             <Menu
                                 anchorEl={anchorEl}
                                 id="account-menu"
@@ -91,26 +120,32 @@ function Header() {
                                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                 className="!w-[240px]"
+                            ><MenuItem
+                                onClick={handleClose}
+                                className="!bg-blue-400 !rounded-t-sm pt-1 !px-0 !cursor-default"
                             >
-                                <MenuItem onClick={handleClose} className="bg-white !px-0">
-                                    <Button className="!text-black !flex !items-center gap-3">
-                                        <div className="w-[35px] h-[35px] min-w-[35px] p-0 rounded-full overflow-hidden">
-                                            <img src="https://img.freepik.com/free-photo/cheerful-guy-enjoying-outdoor-coffee-break_1262-20005.jpg?semt=ais_hybrid&w=740&q=80" alt="Profile" className="w-full h-full object-cover" />
+                                    <Button className="!cursor-default !text-white !flex !items-center gap-3">
+                                        <div className="w-[35px] h-[35px] min-w-[35px] p-0 rounded-full overflow-hidden !cursor-default">
+                                            <img
+                                                src={context?.userdata?.avatar || "/images.png"}
+                                                alt="Profile"
+                                                className="w-full h-full object-cover"
+                                            />
                                         </div>
 
-                                        <div className="text-[14px] font-[500] text-black opacity-70 overflow-hidden leading-4">
+                                        <div className="text-[14px] font-[500] opacity-100 overflow-hidden leading-4">
                                             <p className="w-full text-left capitalize">
-                                                Muhammad Ahmed
+                                                {context?.userdata?.nickname || context?.userdata?.name}
                                             </p>
                                             <p className="text-[12px] text-left w-full font-[500] opacity-70 lowercase">
-                                                muhammadahmedasif13@gmail.com
+                                                {context?.userdata?.email || ""}
                                             </p>
-
                                         </div>
                                     </Button>
                                 </MenuItem>
+
                                 <Divider />
-                                <MenuItem onClick={handleClose} className="bg-white !px-0">
+                                <MenuItem onClick={() => { navigate('/myaccount'); handleClose() }} className="bg-white !px-0">
                                     <Button className="!text-black !pl-5 !flex !items-center !justify-start !w-[230px] gap-4">
                                         <div className="w-[25px] h-[25px] min-w-[25px] p-0 overflow-hidden">
                                             <VscAccount className="w-full text-[18px] h-full" />
@@ -144,7 +179,7 @@ function Header() {
                                             <SlLogout className="w-full text-[18px] h-full" />
                                         </div>
 
-                                        <h3 className="text-[15px] capitalize font-[500]">Sign out</h3>
+                                        <h3 className="text-[15px] capitalize font-[500]" onClick={logout}>Sign out</h3>
                                     </Button>
                                 </MenuItem>
                             </Menu>
